@@ -65,7 +65,7 @@ export default function Login() {
               <div className="text-sm">
                 <a
                   href="#"
-                  className="font-semibold text-[#4095dd] hover:text-indigo-500"
+                  className="font-semibold text-[#e17e41] hover:text-indigo-500"
                 >
                   Forgot password?
                 </a>
@@ -98,7 +98,7 @@ export default function Login() {
           Don't have an account?
           <a
             href="/register"
-            className="block font-semibold text-[#4095dd] hover:text-indigo-500"
+            className="block font-semibold text-[#e17e41] hover:text-indigo-500"
           >
             Register here
           </a>

@@ -1,1 +1,109 @@
+import { useState } from "react";
+import api from "../utils/api";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
+export default function Login() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { login } = useAuth();
+
+  const submit = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      const { data } = await api.post("/auth/token", { username, password });
+      const decoded = jwtDecode(data.token);
+      login(data.token, decoded);
+      navigate("/chat");
+    } catch (err) {
+      setError(err?.response?.data?.message || "Invalid credentials");
+    }
+  };
+
+  return (
+    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <img
+          src="./images/ChatIT-logo.png"
+          alt="Your Company"
+          className="mx-auto h-auto w-100"
+        />
+        <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-[#1780db]">
+          Sign in to your account
+        </h2>
+      </div>
+
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form onSubmit={submit} className="space-y-6">
+          <div>
+            <label className="block text-sm/6 font-medium text-[#1780db]">
+              Username
+            </label>
+            <div className="mt-2">
+              <input
+                id="Username"
+                type="Username"
+                name="Username"
+                required
+                autoComplete="Username"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between">
+              <label className="block text-sm/6 font-medium text-[#1780db]">
+                Password
+              </label>
+              <div className="text-sm">
+                <a
+                  href="#"
+                  className="font-semibold text-[#4095dd] hover:text-indigo-500"
+                >
+                  Forgot password?
+                </a>
+              </div>
+            </div>
+            <div className="mt-2">
+              <input
+                id="password"
+                type="password"
+                name="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="flex w-full justify-center rounded-md bg-[#4095dd] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Sign in
+          </button>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+        </form>
+
+        <p className="mt-10 text-center text-sm/6 text-gray-500">
+          Don't have an account?
+          <a
+            href="/register"
+            className="block font-semibold text-[#4095dd] hover:text-indigo-500"
+          >
+            Register here
+          </a>
+        </p>
+      </div>
+    </div>
+  );
+}

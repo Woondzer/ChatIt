@@ -23,17 +23,22 @@ export default function Register() {
     }
 
     try {
+      await api.patch("/csrf");
+      await api.post("/auth/register", {
+        username: form.username,
+        email: form.email,
+        password: form.password,
+      });
+
       const { data } = await api.patch("/csrf");
 
-      await api.post(
-        "/auth/register",
-        {
-          username: form.username,
-          email: form.email,
-          password: form.password,
-        },
-        { headers: { "X-CSRF-Token": data.csrfToken } }
-      );
+      await api.post("/auth/register", {
+        username: form.username,
+        email: form.email,
+        password: form.password,
+        csrfToken: data.csrfToken,
+      });
+
       navigate("/login");
     } catch (err) {
       setError(err?.response?.data?.message || "Failed to register");

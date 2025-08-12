@@ -11,6 +11,7 @@ export default function Register() {
     confirmPassword: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const submit = async (e) => {
@@ -23,25 +24,26 @@ export default function Register() {
     }
 
     try {
-      await api.patch("/csrf");
-      await api.post("/auth/register", {
-        username: form.username,
-        email: form.email,
-        password: form.password,
-      });
+      setLoading(true);
 
-      const { data } = await api.patch("/csrf");
+      const { data: csrf } = await api.patch("/csrf");
 
       await api.post("/auth/register", {
         username: form.username,
         email: form.email,
         password: form.password,
-        csrfToken: data.csrfToken,
+        csrfToken: csrf.csrfToken,
       });
 
       navigate("/login");
     } catch (err) {
-      setError(err?.response?.data?.message || "Failed to register");
+      const msg =
+        err?.response?.data?.message ||
+        err?.response?.data?.error ||
+        "Failed to register";
+      setError(msg);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -132,9 +134,10 @@ export default function Register() {
           {/* Submit button */}
           <button
             type="submit"
+            disable={loading}
             className="flex w-full justify-center rounded-md bg-[#4095dd] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
 
           {/* Error message */}

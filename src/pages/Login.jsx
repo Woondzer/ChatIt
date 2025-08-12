@@ -1,8 +1,9 @@
 import { useState } from "react";
 import api from "../utils/api";
 import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import logo from "../images/ChatIT-logo.png";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -27,11 +28,7 @@ export default function Login() {
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          src="./images/ChatIT-logo.png"
-          alt="Your Company"
-          className="mx-auto h-auto w-100"
-        />
+        <img src={logo} alt="ChatIT" className="mx-auto h-auto w-100" />
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-[#1780db]">
           Sign in to your account
         </h2>
@@ -45,11 +42,11 @@ export default function Login() {
             </label>
             <div className="mt-2">
               <input
-                id="Username"
-                type="Username"
-                name="Username"
-                required
+                id="username"
+                type="text"
+                name="username"
                 autoComplete="Username"
+                required
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -76,10 +73,10 @@ export default function Login() {
                 id="password"
                 type="password"
                 name="password"
+                autoComplete="current-password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
@@ -96,12 +93,12 @@ export default function Login() {
 
         <p className="mt-10 text-center text-sm/6 text-gray-500">
           Don't have an account?
-          <a
-            href="/register"
+          <Link
+            to="/register"
             className="block font-semibold text-[#e17e41] hover:text-indigo-500"
           >
             Register here
-          </a>
+          </Link>
         </p>
       </div>
     </div>

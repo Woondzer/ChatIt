@@ -1,20 +1,34 @@
 import { useState } from "react";
 import api from "../utils/api";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../images/ChatIT-logo.png";
 
 export default function Register() {
-  const [form, setForm] = useState({ username: "", email: "", password: "" });
+  const [form, setForm] = useState({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const submit = async (e) => {
     e.preventDefault();
     setError("");
+
+    if (form.password !== form.confirmPassword) {
+      setError("Passwords does not match");
+      return;
+    }
+
     try {
       const { data } = await api.patch("/csrf");
-      await api.post("/auth/register", form, {
-        headers: { "X-CSRF-Token": data.csrfToken },
-      });
+      await api.post(
+        "/auth/register",
+        { username: form.username, email: form.email, password: form.password },
+        { headers: { "X-CSRF-Token": data.csrfToken } }
+      );
       navigate("/login");
     } catch (err) {
       setError(err?.response?.data?.message || "Failed to register");
@@ -24,11 +38,9 @@ export default function Register() {
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          src="./images/ChatIT-logo.png"
-          alt="Your Company"
-          className="mx-auto h-auto w-100"
-        />
+        <Link to="/login">
+          <img src={logo} alt="ChatIT" className="mx-auto h-auto w-100" />
+        </Link>
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-[#1780db]">
           Account registration
         </h2>
@@ -40,11 +52,11 @@ export default function Register() {
             </label>
             <div className="mt-2">
               <input
-                id="Username"
-                type="Username"
-                name="Username"
+                id="username"
+                type="text"
+                name="username"
+                autoComplete="username"
                 required
-                autoComplete="Username"
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 value={form.username}
                 onChange={(e) => setForm({ ...form, username: e.target.value })}
@@ -57,11 +69,11 @@ export default function Register() {
             </label>
             <div className="mt-2">
               <input
-                id="Email"
-                type="Email"
-                name="Email"
+                id="email"
+                type="email"
+                name="email"
+                autoComplete="email"
                 required
-                autoComplete="Email"
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-[#1780db] outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
@@ -79,10 +91,10 @@ export default function Register() {
                 id="password"
                 type="password"
                 name="password"
+                autoComplete="current-password"
                 required
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
-                autoComplete="current-password"
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
@@ -96,8 +108,9 @@ export default function Register() {
             <div className="mt-2">
               <input
                 type="password"
-                required
+                name="confirmPassword"
                 autoComplete="new-password"
+                required
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 value={form.confirmPassword}
                 onChange={(e) =>

@@ -29,8 +29,8 @@ export default function Register() {
       const { data: csrf } = await api.patch("/csrf");
 
       await api.post("/auth/register", {
-        username: form.username,
-        email: form.email,
+        username: form.username.trim(),
+        email: form.email.trim(),
         password: form.password,
         csrfToken: csrf.csrfToken,
       });
@@ -103,7 +103,7 @@ export default function Register() {
                 id="password"
                 type="password"
                 name="password"
-                autoComplete="current-password"
+                autoComplete="new-password"
                 required
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
@@ -134,7 +134,7 @@ export default function Register() {
           {/* Submit button */}
           <button
             type="submit"
-            disable={loading}
+            disabled={loading}
             className="flex w-full justify-center rounded-md bg-[#4095dd] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             {loading ? "Registering..." : "Register"}

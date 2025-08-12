@@ -3,6 +3,8 @@ import axios from "axios";
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_BASE,
     withCredentials: true,
+    xsrfCookieName: "csrfToken",
+    xsrfHeaderName: "X-CSRF-Token",
 });
 
 export const setAuthToken = (token) => {

@@ -8,7 +8,9 @@ import logo from "../images/ChatIT-logo.png";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [type, setType] = useState("");
+  const [message, setMessage] = useState("");
+  const [setError] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -16,11 +18,20 @@ export default function Login() {
     e.preventDefault();
     setError("");
     try {
-      const { data } = await api.post("/auth/token", { username, password });
+      const { data: csrf } = await api.patch("/csrf");
+      const { data } = await api.post("/auth/token", {
+        username,
+        password,
+        csrfToken: csrf.csrfToken,
+      });
+
       const decoded = jwtDecode(data.token);
       login(data.token, decoded);
+      setType("success");
+      setMessage("Logged in successfully");
       navigate("/chat");
     } catch (err) {
+      setType("error");
       setError(err?.response?.data?.message || "Invalid credentials");
     }
   };
@@ -53,7 +64,6 @@ export default function Login() {
               />
             </div>
           </div>
-
           <div>
             <div className="flex items-center justify-between">
               <label className="block text-sm/6 font-medium text-[#1780db]">
@@ -81,14 +91,24 @@ export default function Login() {
               />
             </div>
           </div>
-
           <button
             type="submit"
             className="flex w-full justify-center rounded-md bg-[#4095dd] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Sign in
           </button>
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {/* {error && <p className="text-red-500 text-sm">{error}</p>} */}
+          {message && (
+            <p
+              className={
+                type === "error"
+                  ? "text-red-500 text-sm"
+                  : "text-green-500 text-sm"
+              }
+            >
+              {message}
+            </p>
+          )}
         </form>
 
         <p className="mt-10 text-center text-sm/6 text-gray-500">

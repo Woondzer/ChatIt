@@ -2,6 +2,7 @@ import { useState } from "react";
 import api from "../utils/api";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/ChatIT-logo.png";
+import getCsrfToken from "../utils/csrf";
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -25,14 +26,14 @@ export default function Register() {
 
     try {
       setLoading(true);
-
-      const { data: csrf } = await api.patch("/csrf");
+      // const { data: csrf } = await api.patch("/csrf");
+      const csrfToken = await getCsrfToken();
 
       await api.post("/auth/register", {
         username: form.username.trim(),
         email: form.email.trim(),
         password: form.password,
-        csrfToken: csrf.csrfToken,
+        csrfToken: csrfToken,
       });
 
       navigate("/login");
@@ -50,6 +51,7 @@ export default function Register() {
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        {/* Logo with link */}
         <Link to="/login">
           <img src={logo} alt="ChatIT" className="mx-auto h-auto w-100" />
         </Link>
@@ -58,6 +60,7 @@ export default function Register() {
         </h2>
 
         <form onSubmit={submit} className="space-y-6">
+          {/* Username */}
           <div>
             <label className="block text-sm/6 font-medium text-[#1780db]">
               Username
@@ -75,6 +78,7 @@ export default function Register() {
               />
             </div>
           </div>
+          {/* Email address */}
           <div>
             <label className="block text-sm/6 font-medium text-[#1780db]">
               Email
@@ -92,6 +96,7 @@ export default function Register() {
               />
             </div>
           </div>
+          {/* Password */}
           <div>
             <div className="flex items-center justify-between">
               <label className="block text-sm/6 font-medium text-[#1780db]">

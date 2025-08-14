@@ -4,6 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import logo from "../images/ChatIT-logo.png";
+import getCsrfToken from "../utils/csrf";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -21,11 +22,12 @@ export default function Login() {
     const startTime = Date.now();
 
     try {
-      const { data: csrf } = await api.patch("/csrf");
+      const csrfToken = await getCsrfToken();
+      // const { data: csrf } = await api.patch("/csrf");
       const { data } = await api.post("/auth/token", {
         username,
         password,
-        csrfToken: csrf.csrfToken,
+        csrfToken: csrfToken,
       });
 
       const decoded = jwtDecode(data.token);
@@ -46,11 +48,11 @@ export default function Login() {
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img src={logo} alt="ChatIT" className="mx-auto h-auto w-100" />
-        <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-[#1780db]">
+        {/* <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-[#1780db]">
           Sign in to your account
-        </h2>
+        </h2> */}
       </div>
-
+      {/* Username input */}
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form onSubmit={submit} className="space-y-6">
           <div>
@@ -70,6 +72,8 @@ export default function Login() {
               />
             </div>
           </div>
+
+          {/* Password input */}
           <div>
             <div className="flex items-center justify-between">
               <label className="block text-sm/6 font-medium text-[#1780db]">
@@ -97,7 +101,10 @@ export default function Login() {
               />
             </div>
           </div>
+
           {error && <p className="text-red-500 text-sm">{error}</p>}
+
+          {/* login button with loading animation on login */}
           <button
             type="submit"
             className="w-full h-11 flex items-center justify-center rounded-md bg-[#4095dd]
@@ -114,7 +121,7 @@ export default function Login() {
             )}
           </button>
         </form>
-
+        {/* Registration clickable text */}
         <p className="mt-10 text-center text-sm/6 text-gray-500">
           Don't have an account?
           <Link

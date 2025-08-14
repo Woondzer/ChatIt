@@ -10,7 +10,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [type, setType] = useState("");
   const [message, setMessage] = useState("");
-  const [setError] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -98,16 +98,9 @@ export default function Login() {
             Sign in
           </button>
           {/* {error && <p className="text-red-500 text-sm">{error}</p>} */}
-          {message && (
-            <p
-              className={
-                type === "error"
-                  ? "text-red-500 text-sm"
-                  : "text-green-500 text-sm"
-              }
-            >
-              {message}
-            </p>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {type === "success" && message && (
+            <p className="text-green-500 text-sm">{message}</p>
           )}
         </form>
 

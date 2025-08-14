@@ -4,7 +4,7 @@
 /* HTML: <div class="loader"></div> */
 @layer utilities {
 .loader {
-  width: 17px;
+  width: 14px;
   aspect-ratio: 1;
   border-radius: 50%;
   background: currentColor;

@@ -98,18 +98,13 @@ export default function Login() {
             </div>
           </div>
           {error && <p className="text-red-500 text-sm">{error}</p>}
-          {loading ? (
-            <div className="flex justify-center">
-              <div className="loader"></div>
-            </div>
-          ) : (
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded-md bg-[#4095dd] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Sign in
-            </button>
-          )}
+          <button
+            type="submit"
+            className="flex w-full justify-center rounded-md bg-[#4095dd] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            disabled={loading}
+          >
+            {loading ? <div className="loader"></div> : "Sign in"}
+          </button>
         </form>
 
         <p className="mt-10 text-center text-sm/6 text-gray-500">

@@ -7,13 +7,32 @@ import getCsrfToken from "../utils/csrf";
 export default function Chat() {
   const { user } = useAuth();
   const [messages, setMessages] = useState([]);
+  // const [id, setId] = useState("");
   const [text, setText] = useState("");
+  const [conversations, setConversations] = useState([]);
+  const [conversationId, setConversationId] = useState("");
   const [error, setError] = useState("");
 
-  const load = async () => {
+  const loadConversations = async () => {
     try {
-      const { data } = await api.get("/messages");
-      setMessages(data);
+      const { data } = await api.get("/conversations");
+      setConversations(data || []);
+      if (data?.length && !conversationId) {
+        setConversationId(data[0].id);
+      }
+    } catch {
+      setError("Failed to load conversations");
+    }
+  };
+
+  const loadMessages = async (cid = conversationId) => {
+    if (!cid) return;
+    try {
+      const { data } = await api.get("/messages", {
+        params: { conversationId: cid },
+      });
+      setMessages(data || []);
+      setError("");
     } catch {
       setError("Failed to load messages");
     }
@@ -22,31 +41,49 @@ export default function Chat() {
   const send = async (e) => {
     e.preventDefault();
 
-    if (!text.trim()) return;
+    if (!text.trim() || !conversationId) return;
     try {
       const csrfToken = await getCsrfToken();
       await api.post(
         "/messages",
-        { message: text },
+        { text, conversationId },
         { headers: { "X-CSRF-Token": csrfToken } }
       );
       setText("");
-      load();
+      await loadMessages(conversationId);
     } catch {
       setError("Failed to send message");
     }
   };
 
   useEffect(() => {
-    load();
+    loadConversations();
   }, []);
+  useEffect(() => {
+    loadMessages();
+  }, [conversationId]);
 
   return (
-    <div className="max-v-3xl mx-auto p-4">
+    <div className="max-w-3xl mx-auto p-4">
+      {/* drop down för att byta convo */}
+      {conversations.length > 0 && (
+        <select
+          className="select select-bordered mb-4"
+          value={conversationId}
+          onChange={(e) => setConversationId(e.target.value)}
+        >
+          {conversations.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.title || c.id}
+            </option>
+          ))}
+        </select>
+      )}
+
       <form onSubmit={send} className="flex gap-2 mb-4">
         <input
           className="input input-bordered flex-1"
-          placeholder="Write a message..."
+          placeholder="Type message here.."
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
@@ -58,10 +95,10 @@ export default function Chat() {
       <ul className="space-y-2">
         {messages.map((m) => {
           const mine = m.userId === (user?.sub || user?.id);
-          const safe = DOMPurify.sanitize(m.message);
+          const safe = DOMPurify.sanitize(m.text);
           return (
             <li
-              key={m.id}
+              key={m.id || m._id}
               className={`max-w-[70%] p-3 rounded-xl ${
                 mine
                   ? "ml-auto bg-blue-100 text-right"
@@ -69,6 +106,9 @@ export default function Chat() {
               }`}
             >
               <div dangerouslySetInnerHTML={{ __html: safe }} />
+              <span className="block mt-1 text-[11px] text-gray-500">
+                {m.createdAt ? new Date(m.createdAt).toLocaleString() : ""}
+              </span>
             </li>
           );
         })}

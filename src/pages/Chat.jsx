@@ -87,7 +87,9 @@ export default function Chat() {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <button className="btn btn-primary">Send</button>
+        <button className="btn btn-primary" onClick={send()}>
+          Send
+        </button>
       </form>
 
       {error && <p className="text-red-500 text-sm mb-2">{error}</p>}

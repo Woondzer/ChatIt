@@ -1,45 +1,33 @@
 import { useState } from "react";
-import api from "../utils/api";
-import { jwtDecode } from "jwt-decode";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 import logo from "../images/ChatIT-logo.png";
-import getCsrfToken from "../utils/csrf";
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, errorMessage } = useAuth();
 
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     const startTime = Date.now();
 
     try {
-      const csrfToken = await getCsrfToken();
-      // const { data: csrf } = await api.patch("/csrf");
-      const { data } = await api.post("/auth/token", {
-        username,
-        password,
-        csrfToken: csrfToken,
-      });
-
-      const decoded = jwtDecode(data.token);
-      login(data.token, decoded);
-
+      const ok = await login({ username, password });
       const elapsed = Date.now() - startTime;
       const delay = Math.max(0, 2000 - elapsed);
-      setTimeout(() => {
+
+      if (ok) {
+        await new Promise((r) => setTimeout(r, delay));
         navigate("/chat");
-      }, delay);
-    } catch (err) {
-      setError(err?.response?.data?.message || "Invalid credentials");
+      } else {
+        await new Promise((r) => setTimeout(r, delay));
+      }
+    } finally {
       setLoading(false);
     }
   };
@@ -102,7 +90,9 @@ export default function Login() {
             </div>
           </div>
 
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {errorMessage && (
+            <p className="text-red-500 text-sm">{errorMessage}</p>
+          )}
 
           {/* login button with loading animation on login */}
           <button

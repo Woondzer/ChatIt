@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import api from "../utils/api";
 import DOMPurify from "dompurify";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 import getCsrfToken from "../utils/csrf";
 
 export default function Chat() {
-  const { user } = useAuth();
+  const { decodedJwt } = useAuth();
   const [messages, setMessages] = useState([]);
   // const [id, setId] = useState("");
   const [text, setText] = useState("");
@@ -87,7 +87,7 @@ export default function Chat() {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <button className="btn btn-primary" onClick={send}>
+        <button className="btn btn-primary" type="submit">
           Send
         </button>
       </form>
@@ -96,7 +96,7 @@ export default function Chat() {
 
       <ul className="space-y-2">
         {messages.map((m) => {
-          const mine = m.userId === (user?.sub || user?.id);
+          const mine = m.userId === (decodedJwt?.sub || decodedJwt?.id);
           const safe = DOMPurify.sanitize(m.text);
           return (
             <li

@@ -4,7 +4,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Chat from "./pages/Chat";
 import ProtectedRoute from "./components/ProtectedRoute";
-import AuthProvider from "./context/AuthContext";
+import AuthProvider from "./context/AuthProvider";
 
 export default function App() {
   return (

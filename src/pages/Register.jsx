@@ -1,48 +1,31 @@
 import { useState } from "react";
-import api from "../utils/api";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/ChatIT-logo.png";
-import getCsrfToken from "../utils/csrf";
+import { useAuth } from "../hooks/useAuth";
 
 export default function Register() {
+  const { register, errorMessage, successMessage } = useAuth();
   const [form, setForm] = useState({
     username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const submit = async (e) => {
     e.preventDefault();
-    setError("");
-
-    if (form.password !== form.confirmPassword) {
-      setError("Passwords does not match");
-      return;
-    }
+    setLoading(true);
 
     try {
-      setLoading(true);
-      // const { data: csrf } = await api.patch("/csrf");
-      const csrfToken = await getCsrfToken();
-
-      await api.post("/auth/register", {
+      const ok = await register({
         username: form.username.trim(),
         email: form.email.trim(),
         password: form.password,
-        csrfToken: csrfToken,
       });
 
-      navigate("/login");
-    } catch (err) {
-      const msg =
-        err?.response?.data?.message ||
-        err?.response?.data?.error ||
-        "Failed to register";
-      setError(msg);
+      if (ok) navigate("/login");
     } finally {
       setLoading(false);
     }
@@ -146,7 +129,12 @@ export default function Register() {
           </button>
 
           {/* Error message */}
-          {error && <p className="text-red-500 text-sm">{error}</p>}
+          {errorMessage && (
+            <p className="text-red-500 text-sm">{errorMessage}</p>
+          )}
+          {successMessage && (
+            <p className="text-green-500 text-sm">{successMessage}</p>
+          )}
         </form>
       </div>
     </div>

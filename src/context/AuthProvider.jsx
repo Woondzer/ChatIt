@@ -9,24 +9,46 @@ export default function AuthProvider({ children }) {
   const [registered, setRegistered] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [decodedJwt, setDecodedJwt] = useState(null);
   const [token, setToken] = useState(() => localStorage.getItem("token") || "");
+
+  const [decodedJwt, setDecodedJwt] = useState(() => {
+    try {
+      const stringValue = localStorage.getItem("decodedJwt");
+      return stringValue ? JSON.parse(stringValue) : null;
+    } catch {
+      return null;
+    }
+  });
+
+  const isTokenValid = (t) => {
+    try {
+      const decoded = jwtDecode(t);
+      return (
+        decoded &&
+        typeof decoded.exp === "number" &&
+        decoded.exp * 1000 > Date.now()
+      );
+    } catch {
+      return false;
+    }
+  };
 
   useEffect(() => {
     try {
-      const storedLoggedIn = JSON.parse(
-        localStorage.getItem("loggedIn") || "false"
-      );
-      const storedDecoded = localStorage.getItem("decodedJwt");
       const t = localStorage.getItem("token") || "";
 
-      if (storedLoggedIn && t) {
+      if (t && isTokenValid(t)) {
+        const d = jwtDecode(t);
         setLoggedIn(true);
         setToken(t);
+        setDecodedJwt(d);
         setAuthToken(t);
-        if (storedDecoded) setDecodedJwt(JSON.parse(storedDecoded));
       } else {
+        localStorage.clear();
         setAuthToken(null);
+        setLoggedIn(false);
+        setToken("");
+        setDecodedJwt(null);
       }
     } catch {
       localStorage.clear();
@@ -87,13 +109,13 @@ export default function AuthProvider({ children }) {
         });
 
         setRegistered(true);
-        setSuccessMessage(data?.message || "Registered successfully"); //prova att ta bort Registered successfully och kör bara data.message
+        setSuccessMessage(data?.message);
         return true;
       } catch (err) {
         const msg =
           err?.response?.data?.error ||
           err?.response?.data?.message ||
-          "Registration failed"; // samma sak här kolla apiet och hämta hem det meddelandet istället. borde fungera
+          "Registration failed";
         setErrorMessage(msg);
         return false;
       }
@@ -117,6 +139,10 @@ export default function AuthProvider({ children }) {
           throw new Error("Invalid token in response");
         }
 
+        if (!isTokenValid(data.token)) {
+          throw new Error("Expired token");
+        }
+
         setLocalStorage(data.token);
         setSuccessMessage("Signed in successfully");
         return true;
@@ -136,12 +162,12 @@ export default function AuthProvider({ children }) {
         return false;
       }
     },
-    [csrfToken, fetchCsrfToken, setLocalStorage]
+    [csrfToken, fetchCsrfToken, setLocalStorage, clearLocalStorage]
   );
 
   const logout = useCallback(() => {
     clearLocalStorage();
-    setAuthToken("");
+    setAuthToken(null);
     setLoggedIn(false);
     setToken("");
     setDecodedJwt(null);

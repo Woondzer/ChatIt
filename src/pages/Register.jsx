@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../images/ChatIT-logo.png";
 import { useAuth } from "../hooks/useAuth";
 
 export default function Register() {
-  const { register, errorMessage, successMessage } = useAuth();
+  const { register, errorMessage, successMessage, setSuccessMessage } =
+    useAuth();
   const [form, setForm] = useState({
     username: "",
     email: "",
@@ -17,19 +18,27 @@ export default function Register() {
   const submit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
-      const ok = await register({
+      await register({
         username: form.username.trim(),
         email: form.email.trim(),
         password: form.password,
       });
-
-      if (ok) navigate("/login");
+      // if (ok) navigate("/login");
     } finally {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!successMessage) return;
+    const timer = setTimeout(() => {
+      navigate("/login", { state: { flash: successMessage } });
+      setSuccessMessage("");
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [successMessage, navigate, setSuccessMessage]);
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -107,34 +116,57 @@ export default function Register() {
             </label>
             <div className="mt-2">
               <input
+                id="confirmPassword"
                 type="password"
                 name="confirmPassword"
                 autoComplete="new-password"
                 required
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
                 value={form.confirmPassword}
                 onChange={(e) =>
                   setForm({ ...form, confirmPassword: e.target.value })
                 }
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
               />
             </div>
+            {/* felmeddelande confirm password*/}
+            {form.confirmPassword && form.password !== form.confirmPassword && (
+              <p className="text-red-500 text-sm mt-1">
+                Password does not match
+              </p>
+            )}
           </div>
-          {/* Submit button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="flex w-full justify-center rounded-md bg-[#4095dd] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-          >
-            {loading ? "Registering..." : "Register"}
-          </button>
 
-          {/* Error message */}
+          {/* Error message / Success message */}
           {errorMessage && (
             <p className="text-red-500 text-sm">{errorMessage}</p>
           )}
           {successMessage && (
             <p className="text-green-500 text-sm">{successMessage}</p>
           )}
+
+          {/* Submit button */}
+          <button
+            type="submit"
+            disabled={
+              loading ||
+              !form.username ||
+              !form.email ||
+              !form.password ||
+              form.password !== form.confirmPassword
+            }
+            className={`flex w-full justify-center rounded-md bg-[#4095dd] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600
+              ${
+                loading ||
+                !form.username ||
+                !form.email ||
+                !form.password ||
+                form.password !== form.confirmPassword
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-[#4095dd] hover:bg-indigo-500 cursor-pointer"
+              }`}
+          >
+            {loading ? "Registering..." : "Register"}
+          </button>
         </form>
       </div>
     </div>

@@ -1,7 +1,5 @@
 @import "tailwindcss";
 
-
-/* HTML: <div class="loader"></div> */
 @layer utilities {
 .loader {
   width: 14px;

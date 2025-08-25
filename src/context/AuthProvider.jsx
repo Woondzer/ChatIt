@@ -44,14 +44,18 @@ export default function AuthProvider({ children }) {
         setDecodedJwt(d);
         setAuthToken(t);
       } else {
-        localStorage.clear();
+        localStorage.removeItem("token");
+        localStorage.removeItem("decodedJwt");
+        localStorage.removeItem("loggedIn");
         setAuthToken(null);
         setLoggedIn(false);
         setToken("");
         setDecodedJwt(null);
       }
     } catch {
-      localStorage.clear();
+      localStorage.removeItem("token");
+      localStorage.removeItem("decodedJwt");
+      localStorage.removeItem("loggedIn");
       setAuthToken(null);
     }
   }, []);

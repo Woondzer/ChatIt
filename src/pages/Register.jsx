@@ -24,7 +24,6 @@ export default function Register() {
         email: form.email.trim(),
         password: form.password,
       });
-      // if (ok) navigate("/login");
     } finally {
       setLoading(false);
     }

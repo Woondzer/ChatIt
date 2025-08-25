@@ -36,9 +36,6 @@ export default function Login() {
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img src={logo} alt="ChatIT" className="mx-auto h-auto w-100" />
-        {/* <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-[#1780db]">
-          Sign in to your account
-        </h2> */}
       </div>
       {/* Username input */}
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -101,7 +98,6 @@ export default function Login() {
              px-3 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500
              focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600
              disabled:opacity-70"
-            // className="flex w-full justify-center rounded-md bg-[#4095dd] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             disabled={loading}
           >
             {loading ? (

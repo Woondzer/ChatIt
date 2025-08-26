@@ -60,10 +60,6 @@ export default function AuthProvider({ children }) {
     }
   }, []);
 
-  useEffect(() => {
-    fetchCsrfToken();
-  }, []);
-
   const fetchCsrfToken = useCallback(async () => {
     try {
       const { data } = await api.patch("/csrf");
@@ -168,6 +164,10 @@ export default function AuthProvider({ children }) {
     },
     [csrfToken, fetchCsrfToken, setLocalStorage, clearLocalStorage]
   );
+
+  useEffect(() => {
+    fetchCsrfToken();
+  }, []);
 
   const logout = useCallback(() => {
     clearLocalStorage();

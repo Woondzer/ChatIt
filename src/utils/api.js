@@ -13,12 +13,13 @@ export const setAuthToken = (token) => {
 };
 
 api.interceptors.request.use((config) => {
-    const t = localStorage.getItem("token");
-    if (t && !config.headers?.Authorization) {
-        config.headers = config.headers || {};
-        config.headers.Authorization = `Bearer ${t}`;
-    }
-    return config;
-})
+  const t = localStorage.getItem("token");
+  if (t && !config.headers?.Authorization) {
+    config.headers = config.headers || {};
+    config.headers.Authorization = `Bearer ${t}`;
+  }
+  return config;
+});
+
 
 export default api;

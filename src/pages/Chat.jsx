@@ -3,6 +3,7 @@ import api from "../utils/api";
 import DOMPurify from "dompurify";
 import { useAuth } from "../hooks/useAuth";
 import SideNav from "../components/SideNav";
+import { RiChatDeleteLine } from "react-icons/ri";
 
 export default function Chat() {
   const { decodedJwt, csrfToken, fetchCsrfToken } = useAuth();
@@ -176,6 +177,11 @@ export default function Chat() {
     }
   };
 
+  const handleDelete = async (id) => {
+    if (!window.confirm("Delete this message?")) return;
+    await deleteMessage(id);
+  };
+
   useEffect(() => {
     loadMessages();
   }, [demoConvoId]);
@@ -223,10 +229,10 @@ export default function Chat() {
 
               {mine && !String(m.id).startsWith("fake-") && (
                 <button
-                  onClick={() => deleteMessage(m.id)}
-                  className="text-xs text-red-500 ml-2"
+                  onClick={() => handleDelete(m.id)}
+                  className="text-s text-red-500 ml-2 hover:cursor-pointer"
                 >
-                  trash
+                  <RiChatDeleteLine />
                 </button>
               )}
             </li>

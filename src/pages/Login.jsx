@@ -34,7 +34,10 @@ export default function Login() {
 
   return (
     <main className="flex relative min-h-screen flex-col justify-top px-6 py-12 lg:px-8 bg-[#0B082F] text-slate-100">
-      <div className="pointer-events-none absolute -top-32 left-1/2 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl" />
+      <div
+        className="pointer-events-none absolute -top-32 left-1/2 h-[40rem] 
+      w-[40rem] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl"
+      />
 
       {/* <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8"> */}
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -54,7 +57,9 @@ export default function Login() {
                 name="username"
                 autoComplete="Username"
                 required
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#1780db] sm:text-sm/6"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 
+                -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 
+                focus:-outline-offset-2 focus:outline-[#1780db] sm:text-sm/6"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -85,7 +90,9 @@ export default function Login() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#1780db] sm:text-sm/6"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 
+                -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 
+                focus:outline-[#1780db] sm:text-sm/6"
               />
             </div>
           </div>

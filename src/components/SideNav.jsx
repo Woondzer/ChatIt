@@ -63,7 +63,7 @@ export default function SideNav() {
       <button
         aria-label="Open menu"
         onClick={() => setOpen(true)}
-        className="fixed bottom-5 right-5 z-40 h-14 w-14 rounded-full bg-[#4095dd] text-white 
+        className="fixed top-1 right-5 z-40 h-14 w-14 rounded-full bg-[#4095dd] text-white 
         shadow-lg flex items-center justify-center hover:bg-indigo-500 
         focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 hover:cursor-pointer"
       >

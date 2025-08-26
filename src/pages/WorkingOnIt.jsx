@@ -4,7 +4,7 @@ export default function WorkingOnIt() {
       <div className="pointer-events-none absolute -top-32 left-1/2 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-sky-500/20 blur-3xl" />
       <section className="relative z-10 mx-auto grid max-w-4xl place-items-center gap-6 px-6 py-16 text-center">
         <div className="w-full">
-          <div className="mx-auto aspect-video w-full max-w-xl rounded-2xl border border-white/10 bg-white/5 p-3 shadow-2xl backdrop-blur-sm">
+          <div className="mx-auto aspect-video w-full max-w-xl">
             <img
               src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExdno5cDRlZTJwNmczcXV3b3JodHlqM2Nzc3pubnduaG9sMmpvMzFjZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/2IudUHdI075HL02Pkk/giphy.gif"
               alt="Coding penguin working hard"
@@ -15,10 +15,10 @@ export default function WorkingOnIt() {
           </div>
         </div>
 
-        <h1 className="text-5xl md:text-7xl font-black tracking-tight text-[#4095dd]">
+        <h1 className="mt-5 text-5xl md:text-7xl font-black text-[#4095dd]">
           Oh no!!
         </h1>
-        <p className="max-w-xl text-base md:text-lg text-slate-300">
+        <p className="m-5 max-w-xl text-base md:text-lg text-slate-300">
           We’re currently working on this page. Please check back soon.
         </p>
 

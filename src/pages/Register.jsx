@@ -40,7 +40,8 @@ export default function Register() {
   }, [successMessage, navigate, setSuccessMessage]);
 
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <main className="flex relative min-h-screen flex-col justify-top px-6 py-12 lg:px-8 bg-[#0B082F] text-slate-100">
+      <div className="pointer-events-none absolute -top-32 left-1/2 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl" />
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         {/* Logo with link */}
         <Link to="/login">
@@ -63,7 +64,7 @@ export default function Register() {
                 name="username"
                 autoComplete="username"
                 required
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#1780db] sm:text-sm/6"
                 value={form.username}
                 onChange={(e) => setForm({ ...form, username: e.target.value })}
               />
@@ -81,7 +82,7 @@ export default function Register() {
                 name="email"
                 autoComplete="email"
                 required
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-[#1780db] outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-[#1780db] outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#1780db] sm:text-sm/6"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
               />
@@ -103,7 +104,7 @@ export default function Register() {
                 required
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#1780db] sm:text-sm/6"
               />
             </div>
           </div>
@@ -124,7 +125,7 @@ export default function Register() {
                 onChange={(e) =>
                   setForm({ ...form, confirmPassword: e.target.value })
                 }
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#1780db] sm:text-sm/6"
               />
             </div>
             {/* felmeddelande confirm password*/}
@@ -153,7 +154,7 @@ export default function Register() {
               !form.password ||
               form.password !== form.confirmPassword
             }
-            className={`flex w-full justify-center rounded-md bg-[#4095dd] px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600
+            className={`flex w-full justify-center rounded-md px-3 py-3 text-sm/6 font-semibold text-white shadow-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1780db]
               ${
                 loading ||
                 !form.username ||
@@ -161,13 +162,13 @@ export default function Register() {
                 !form.password ||
                 form.password !== form.confirmPassword
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-[#4095dd] hover:bg-indigo-500 cursor-pointer"
+                  : "bg-[#1780db] hover:bg-[#4095dd] cursor-pointer"
               }`}
           >
             {loading ? "Registering..." : "Register"}
           </button>
         </form>
       </div>
-    </div>
+    </main>
   );
 }

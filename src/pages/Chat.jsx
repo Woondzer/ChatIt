@@ -187,8 +187,8 @@ export default function Chat() {
   }, [demoConvoId]);
 
   return (
-    <div className="max-w-3xl mx-auto p-4">
-      <ul className="space-y-2">
+    <main className="flex relative min-h-screen flex-col justify-top px-6 py-12 lg:px-8 bg-[#0B082F] text-slate-100">
+      <ul className="space-y-10">
         {combined.map((m) => {
           const mine = m.userId === me;
 
@@ -205,11 +205,11 @@ export default function Chat() {
               key={m.id}
               className={`max-w-[70%] p-3 rounded-xl ${
                 mine
-                  ? "ml-auto bg-blue-100 text-left"
-                  : "mr-auto bg-gray-100 text-left"
+                  ? "ml-auto bg-blue-100/25 text-left"
+                  : "mr-auto bg-gray-100/25 text-left"
               }`}
             >
-              {/* avatar + username */}
+              {/* avatar & username */}
               <div className={`flex items-center gap-2 mb-1`}>
                 <img
                   src={avatarUrl}
@@ -226,7 +226,7 @@ export default function Chat() {
               <span className="block mt-1 text-[11px] text-gray-500">
                 {m.createdAt ? new Date(m.createdAt).toLocaleString() : ""}
               </span>
-
+              {/* remove message btn */}
               {mine && !String(m.id).startsWith("fake-") && (
                 <button
                   onClick={() => handleDelete(m.id)}
@@ -257,6 +257,6 @@ export default function Chat() {
       <div className="max-w-3xl mx-auto p-4">
         <SideNav />
       </div>
-    </div>
+    </main>
   );
 }

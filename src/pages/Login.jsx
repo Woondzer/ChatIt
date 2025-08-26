@@ -33,7 +33,10 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <main className="flex relative min-h-screen flex-col justify-top px-6 py-12 lg:px-8 bg-[#0B082F] text-slate-100">
+      <div className="pointer-events-none absolute -top-32 left-1/2 h-[40rem] w-[40rem] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl" />
+
+      {/* <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8"> */}
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img src={logo} alt="ChatIT" className="mx-auto h-auto w-100" />
       </div>
@@ -51,7 +54,7 @@ export default function Login() {
                 name="username"
                 autoComplete="Username"
                 required
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#1780db] sm:text-sm/6"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
@@ -67,7 +70,7 @@ export default function Login() {
               <div className="text-sm">
                 <Link
                   to="/workingOnIt"
-                  className="font-semibold text-[#e17e41] hover:text-indigo-500"
+                  className="font-semibold text-[#e17e41] hover:text-[#1780db]"
                 >
                   Forgot password?
                 </Link>
@@ -82,7 +85,7 @@ export default function Login() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#1780db] sm:text-sm/6"
               />
             </div>
           </div>
@@ -94,8 +97,8 @@ export default function Login() {
           {/* login button with loading animation on login */}
           <button
             type="submit"
-            className="w-full h-11 flex items-center justify-center rounded-md bg-[#4095dd]
-             px-3 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500
+            className="w-full h-11 flex items-center justify-center rounded-md bg-[#1780db]
+             px-3 text-sm font-semibold text-white shadow-xs hover:bg-[#4095dd] hover:cursor-pointer
              focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600
              disabled:opacity-70"
             disabled={loading}
@@ -118,6 +121,7 @@ export default function Login() {
           </Link>
         </p>
       </div>
-    </div>
+      {/* </div>  */}
+    </main>
   );
 }

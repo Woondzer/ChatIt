@@ -209,7 +209,7 @@ export default function Chat() {
                   : "mr-auto bg-gray-100 text-left"
               }`}
             >
-              {/* avatar + username (inside the bubble for both users) */}
+              {/* avatar + username */}
               <div className={`flex items-center gap-2 mb-1`}>
                 <img
                   src={avatarUrl}

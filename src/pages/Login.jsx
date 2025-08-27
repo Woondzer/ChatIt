@@ -33,7 +33,7 @@ export default function Login() {
   };
 
   return (
-    <main className="flex relative min-h-screen flex-col justify-top px-6 py-12 lg:px-8 bg-[#0B082F] text-slate-100">
+    <main className="flex relative min-h-dvh flex-col justify-top px-6 py-12 lg:px-8 bg-[#0B082F] text-slate-100">
       <div
         className="pointer-events-none absolute -top-32 left-1/2 h-[40rem] 
       w-[40rem] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl"

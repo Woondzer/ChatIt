@@ -175,6 +175,8 @@ export default function AuthProvider({ children }) {
     setLoggedIn(false);
     setToken("");
     setDecodedJwt(null);
+    setErrorMessage("");
+    setSuccessMessage("");
   }, [clearLocalStorage]);
 
   const value = useMemo(

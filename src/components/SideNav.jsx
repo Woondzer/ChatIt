@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { RiMenuLine } from "react-icons/ri";
+import { RiMenuLine, RiLogoutBoxRLine } from "react-icons/ri";
 
 const DEFAULT_AVATAR = 10;
 const MAX_IMG = 70;
@@ -64,9 +64,11 @@ export default function SideNav() {
       <button
         aria-label="Open menu"
         onClick={() => setOpen(true)}
-        className="fixed top-1 right-5 z-40 h-14 w-14 rounded-full bg-[#4095dd] text-white 
-        shadow-lg flex items-center justify-center hover:bg-indigo-500 
-        focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 hover:cursor-pointer"
+        className="fixed top-3 right-5 z-40 h-14 w-14 rounded-full 
+             backdrop-blur-md bg-white/10 border border-white/15 
+             text-slate-100 shadow-lg hover:bg-white/20 
+             focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400/40
+             flex items-center justify-center transition hover:cursor-pointer"
       >
         <RiMenuLine />
       </button>
@@ -86,27 +88,17 @@ export default function SideNav() {
         role="dialog"
         aria-modal="true"
         aria-label="Side menu"
-        className={`fixed right-0 top-0 z-50 h-full w-80 max-w-[85vw] bg-white shadow-2xl
+        className={`fixed right-0 top-0 z-50 h-screen flex flex-col w-80 max-w-[85vw] bg-[#0B082F] shadow-2xl
                     transition-transform duration-300 ease-in-out
                     ${open ? "translate-x-0" : "translate-x-full"}`}
       >
         {/* avatar & name/email */}
-        <div className="flex items-center gap-3 p-4 border-b">
-          <img
-            src={avatarUrl}
-            alt={name}
-            className="h-12 w-12 rounded-full object-cover"
-          />
-
-          <div className="min-w-0">
-            <p className="font-semibold truncate">{name}</p>
-            {email && <p className="text-sm text-gray-500 truncate">{email}</p>}
-          </div>
-
+        <div className="flex flex-col items-center gap-3 p-4 border-b">
+          {/* close nav */}
           <button
             onClick={() => setOpen(false)}
             aria-label="Close"
-            className="ml-auto p-2 rounded-md hover:bg-gray-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 hover:cursor-pointer"
+            className="ml-auto p-2 rounded-md hover:bg-rose-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 hover:cursor-pointer"
           >
             <svg
               width="18"
@@ -123,6 +115,17 @@ export default function SideNav() {
               />
             </svg>
           </button>
+          {/* profile picture */}
+          <img
+            src={avatarUrl}
+            alt={name}
+            className="h-45 w-45 rounded-sm object-cover"
+          />
+          {/* profile username/email */}
+          <div className="min-w-0">
+            <p className="font-semibold text-2xl truncate">{name}</p>
+            {email && <p className="text-sm text-gray-500 truncate">{email}</p>}
+          </div>
         </div>
 
         {/* content */}
@@ -136,13 +139,15 @@ export default function SideNav() {
           >
             Randomize avatar
           </button>
+        </div>
+        <div className="mt-auto">
           <button
             onClick={handleLogout}
-            className="w-full inline-flex items-center justify-center rounded-md bg-red-500 text-white
-                               px-4 py-2 font-medium hover:bg-red-600 focus-visible:outline-2
+            className="w-full inline-flex items-center justify-center bg-red-500 text-white
+                               px-4 py-4 font-medium hover:bg-red-600 focus-visible:outline-2
                                focus-visible:outline-offset-2 focus-visible:outline-red-600 hover:cursor-pointer"
           >
-            Log out
+            <RiLogoutBoxRLine className="text-3xl" />
           </button>
         </div>
       </aside>

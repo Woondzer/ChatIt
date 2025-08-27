@@ -247,21 +247,22 @@ export default function Chat() {
                 />
 
                 {/* timestamp */}
-                <div className="m-2 flex items-center gap-3">
-                  <span className="text-[11px] text-white/60">
+                <div className="mt-3 flex items-center gap-3">
+                  <span className="text-[11px] text-white/20">
                     {m.createdAt ? new Date(m.createdAt).toLocaleString() : ""}
                   </span>
+
+                  {/* remove message btn */}
+                  {mine && !String(m.id).startsWith("fake-") && (
+                    <button
+                      onClick={() => handleDelete(m.id)}
+                      className="ml-auto text-s text-rose-400/80 hover:text-rose-300 opacity-0 group-hover:opacity-100 transition hover:cursor-pointer"
+                      title="Delete message"
+                    >
+                      <RiChatDeleteLine />
+                    </button>
+                  )}
                 </div>
-                {/* remove message btn */}
-                {mine && !String(m.id).startsWith("fake-") && (
-                  <button
-                    onClick={() => handleDelete(m.id)}
-                    className="ml-auto text-s text-rose-400/80 hover:text-rose-300 opacity-0 group-hover:opacity-100 transition hover:cursor-pointer"
-                    title="Delete message"
-                  >
-                    <RiChatDeleteLine />
-                  </button>
-                )}
               </li>
             );
           })}

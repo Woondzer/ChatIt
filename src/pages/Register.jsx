@@ -62,6 +62,7 @@ export default function Register() {
                 id="username"
                 type="text"
                 name="username"
+                maxLength={25}
                 autoComplete="username"
                 required
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#1780db] sm:text-sm/6"
@@ -80,6 +81,7 @@ export default function Register() {
                 id="email"
                 type="email"
                 name="email"
+                maxLength={45}
                 autoComplete="email"
                 required
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-[#1780db] outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#1780db] sm:text-sm/6"

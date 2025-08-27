@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
+import { RiMenuLine } from "react-icons/ri";
 
 const DEFAULT_AVATAR = 10;
 const MAX_IMG = 70;
@@ -67,7 +68,7 @@ export default function SideNav() {
         shadow-lg flex items-center justify-center hover:bg-indigo-500 
         focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-600 hover:cursor-pointer"
       >
-        Placeholder
+        <RiMenuLine />
       </button>
 
       {open && (

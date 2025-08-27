@@ -214,7 +214,7 @@ export default function Chat() {
 
             //chat bubble styling testing a new way to write the styling.
             const bubbleBase =
-              "group relative max-w-[70%] rounded-2xl px-4 py-3 shadow-lg ring-1 backdrop-blur-md transition duration-200";
+              "group relative max-w-[70%] xl:max-w-[50%] rounded-2xl px-4 py-3 shadow-lg ring-1 backdrop-blur-md transition duration-200";
 
             const bubbleMine =
               "ml-auto bg-sky-400/15 ring-sky-200/20 text-slate-100 hover:scale-[1.01] ";

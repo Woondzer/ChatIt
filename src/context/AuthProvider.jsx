@@ -167,7 +167,7 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     fetchCsrfToken();
-  }, []);
+  }, [fetchCsrfToken]);
 
   const logout = useCallback(() => {
     clearLocalStorage();

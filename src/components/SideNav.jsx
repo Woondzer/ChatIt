@@ -15,8 +15,6 @@ export default function SideNav() {
 
   const userKey = decodedJwt?.sub || decodedJwt?.id;
 
-  console.log("Using avatar storagekey:", userKey);
-
   useEffect(() => {
     if (open && panelRef.current) {
       panelRef.current.focus();

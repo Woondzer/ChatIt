@@ -72,11 +72,11 @@ export default function Chat() {
         }
       }
     };
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyDown", handleKeyDown);
     return () => window.removeEventListener("keyDown", handleKeyDown);
   }, []);
 
-  const loadMessages = async () => {
+  const loadMessages = useCallback(async () => {
     try {
       const { data } = await api.get("/messages", {
         params: { conversationId: demoConvoId },
@@ -86,7 +86,7 @@ export default function Chat() {
     } catch {
       setError("Failed to load messages");
     }
-  };
+  }, [demoConvoId]); // <------------- test
 
   useEffect(() => {
     if (!LS_KEY) return;
@@ -219,7 +219,7 @@ export default function Chat() {
 
   useEffect(() => {
     loadMessages();
-  }, [demoConvoId]);
+  }, [loadMessages]);
 
   return (
     <main className="min-h-dvh flex flex-col bg-[#0B082F] text-slate-100">

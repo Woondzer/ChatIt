@@ -14,6 +14,7 @@ export default function Chat() {
   const [error, setError] = useState("");
   const DEFAULT_AVATAR = 10;
   const endRef = useRef(null);
+  const textareaRef = useRef(null);
 
   const scrollToBottom = useCallback((behavior = "auto") => {
     endRef.current?.scrollIntoView({ behavior, page: "end" });
@@ -58,6 +59,23 @@ export default function Chat() {
     scrollToBottom("auto");
   }, [demoConvoId, scrollToBottom]);
 
+  useEffect(() => {
+    textareaRef.current?.focus();
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        if (document.activeElement !== textareaRef.current) {
+          e.preventDefault();
+          textareaRef.current.focus();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keyDown", handleKeyDown);
+  }, []);
+
   const loadMessages = async () => {
     try {
       const { data } = await api.get("/messages", {
@@ -82,8 +100,8 @@ export default function Chat() {
         const initial = [
           {
             id: `fake-${crypto.randomUUID()}`,
-            text: "Tja tja, hur mår du?",
-            avatar: "https://i.pravatar.cc/100?img=14",
+            text: "Tjena fan, det är Leffe här. Ska du med till bänken?",
+            avatar: "https://i.pravatar.cc/100?img=70",
             username: "Leffe-Pulver",
             conversationId: null,
             userId: "Leffe-Pulver",
@@ -91,8 +109,8 @@ export default function Chat() {
           },
           {
             id: `fake-${crypto.randomUUID()}`,
-            text: "Hallå!! Svara då!!",
-            avatar: "https://i.pravatar.cc/100?img=14",
+            text: "Grabbarna hitta en fin fin kasse bira bakom tjorren, så vi tänkte fira Roggas 2dagar som nykterist",
+            avatar: "https://i.pravatar.cc/100?img=70",
             username: "Leffe-Pulver",
             conversationId: null,
             userId: "mock-user",
@@ -100,8 +118,8 @@ export default function Chat() {
           },
           {
             id: `fake-${crypto.randomUUID()}`,
-            text: "Sover du eller?! 🥱",
-            avatar: "https://i.pravatar.cc/100?img=14",
+            text: "Bara dyk upp när du vill iallafall!",
+            avatar: "https://i.pravatar.cc/100?img=70",
             username: "Leffe-Pulver",
             conversationId: null,
             userId: "mock-user",
@@ -135,7 +153,7 @@ export default function Chat() {
 
   useEffect(() => {
     scrollToBottom("smooth");
-  }, [combined.length, scrollToBottom]); //<------------------------------------------------------------------------------------------------------------------------
+  }, [combined.length, scrollToBottom]);
 
   const send = async (e) => {
     e.preventDefault();
@@ -151,14 +169,23 @@ export default function Chat() {
       setText("");
       await loadMessages();
 
+      const leffeRandomReplies = [
+        "Lugnt, vi är kvar ett tag. Skickar pin strax.",
+        "Säg till när du drar hemifrån så håller vi plats.",
+        "Om du inte pallar idag tar vi det imorgon, inga konstigheter.",
+        "Behöver du skjuts eller möte, säg till.",
+        "Vi sitter vid bänken vid tjorren, kom när du kan.",
+      ];
+
       setTimeout(() => {
         setFakeChat((prev) => [
           ...prev,
           {
             id: `fake-${crypto.randomUUID()}`,
-            text:
-              Math.random() > 0.5 ? "Jaha okej" : "Varför tog det sån tid då?",
-            avatar: "https://i.pravatar.cc/100?img=14",
+            text: leffeRandomReplies[
+              Math.floor(Math.random() * leffeRandomReplies.length)
+            ],
+            avatar: "https://i.pravatar.cc/100?img=70",
             username: "Leffe-Pulver",
             conversationId: null,
             userId: "mock-user",
@@ -274,6 +301,7 @@ export default function Chat() {
         <div className="backdrop-blur-md bg-white/5 border-t border-white/10 px-3 py-3 flex gap-2">
           <textarea
             rows={4}
+            ref={textareaRef}
             className="flex-1 rounded-xl bg-white/10 border border-white/15 px-4 py-3
             text-slate-100 placeholder-white/50 focus:outline-none focus:border-sky-400/40 focus:ring-2 focus:ring-sky-400/30"
             placeholder="Type message here.."
@@ -287,7 +315,7 @@ export default function Chat() {
             }}
           />
           <button
-            className="rounded-xl bg-sky-500/80 px-12 font-medium text-white shadow-lg shadow-sky-500/25 hover:bg-sky-500"
+            className="rounded-xl bg-sky-500/80 px-12 font-medium text-white shadow-lg shadow-sky-500/25 hover:bg-sky-500 hover:cursor-pointer"
             type="submit"
           >
             Send

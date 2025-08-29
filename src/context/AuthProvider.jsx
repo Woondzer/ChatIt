@@ -20,9 +20,9 @@ export default function AuthProvider({ children }) {
     }
   });
 
-  const isTokenValid = (t) => {
+  const isTokenValid = (token) => {
     try {
-      const decoded = jwtDecode(t);
+      const decoded = jwtDecode(token);
       return (
         decoded &&
         typeof decoded.exp === "number" &&

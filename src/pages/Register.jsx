@@ -130,7 +130,7 @@ export default function Register() {
                 className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-[#1780db] sm:text-sm/6"
               />
             </div>
-            {/* felmeddelande confirm password*/}
+            {/* errormessage / confirm password*/}
             {form.confirmPassword && form.password !== form.confirmPassword && (
               <p className="text-red-500 text-sm mt-1">
                 Password does not match
@@ -138,7 +138,7 @@ export default function Register() {
             )}
           </div>
 
-          {/* Error message / Success message */}
+          {/* Errormessage / Success message */}
           {errorMessage && (
             <p className="text-red-500 text-sm">{errorMessage}</p>
           )}

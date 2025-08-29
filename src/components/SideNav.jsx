@@ -41,7 +41,6 @@ export default function SideNav() {
     localStorage.setItem(`avatarIndex:${userKey}`, String(newIndex));
   };
 
-  // skiter i stäng med escape, ändra till kryss knapp som stänger fönstret och att det stängs vid klick utanför fönstret.
   const avatarUrl = `https://i.pravatar.cc/150?img=${avatarIndex}`;
   const name =
     decodedJwt?.user ||

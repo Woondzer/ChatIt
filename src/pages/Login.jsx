@@ -39,7 +39,6 @@ export default function Login() {
       w-[40rem] -translate-x-1/2 rounded-full bg-sky-500/10 blur-3xl"
       />
 
-      {/* <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8"> */}
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img src={logo} alt="ChatIT" className="mx-auto h-auto w-100" />
       </div>

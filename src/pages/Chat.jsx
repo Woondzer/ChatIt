@@ -86,7 +86,7 @@ export default function Chat() {
     } catch {
       setError("Failed to load messages");
     }
-  }, [demoConvoId]); // <------------- test
+  }, [demoConvoId]);
 
   useEffect(() => {
     if (!LS_KEY) return;

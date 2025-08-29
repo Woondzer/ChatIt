@@ -35,14 +35,14 @@ export default function AuthProvider({ children }) {
 
   useEffect(() => {
     try {
-      const t = localStorage.getItem("token") || "";
+      const token = localStorage.getItem("token") || "";
 
-      if (t && isTokenValid(t)) {
-        const d = jwtDecode(t);
+      if (token && isTokenValid(token)) {
+        const decoded = jwtDecode(token);
         setLoggedIn(true);
-        setToken(t);
-        setDecodedJwt(d);
-        setAuthToken(t);
+        setToken(token);
+        setDecodedJwt(decoded);
+        setAuthToken(token);
       } else {
         localStorage.removeItem("token");
         localStorage.removeItem("decodedJwt");
@@ -69,25 +69,25 @@ export default function AuthProvider({ children }) {
     }
   }, []);
 
-  const decodeJwt = (t) => {
+  const decodeJwt = (token) => {
     try {
-      return jwtDecode(t);
+      return jwtDecode(token);
     } catch {
       return null;
     }
   };
 
-  const setLocalStorage = useCallback((t) => {
-    const decoded = decodeJwt(t);
+  const setLocalStorage = useCallback((token) => {
+    const decoded = decodeJwt(token);
     setDecodedJwt(decoded);
-    setToken(t);
+    setToken(token);
     setLoggedIn(true);
 
-    localStorage.setItem("token", t);
+    localStorage.setItem("token", token);
     localStorage.setItem("decodedJwt", JSON.stringify(decoded || {}));
     localStorage.setItem("loggedIn", JSON.stringify(true));
 
-    setAuthToken(t);
+    setAuthToken(token);
   }, []);
 
   const clearLocalStorage = useCallback(() => {
